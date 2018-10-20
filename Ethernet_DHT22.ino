@@ -6,7 +6,7 @@
 
 #define DHTPIN  2
 #define DHTPIN2 3
-#define DHTPIN3 5
+#define DHTPIN3 4
 #define VCC     A1
 #define GND     A0
 
@@ -113,7 +113,7 @@ void loop()
     Serial.println();
     Serial.println("Mengirim Data ~");
 
-    String url = "/sdairlangga/absensi/input.php";
+    String url = "/radhumidity2/input.php";
     url += "?temperature=";
     url += temp;
     url += "&humidity=";
