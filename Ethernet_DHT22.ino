@@ -7,8 +7,11 @@
 #define DHTPIN  2
 #define DHTPIN2 3
 #define DHTPIN3 4
-#define VCC     A1
-#define GND     A0
+#define Relay   5
+#define VCC     A0
+#define VCC_2   A1
+#define VCC_3   A2
+#define GND     A3
 
 DHT dht (DHTPIN, DHTTYPE2);
 DHT dht2(DHTPIN2, DHTTYPE2);
@@ -27,9 +30,16 @@ const char* host      = "192.168.50.4";
 void setup() {
   Serial.begin(9600);
   pinMode(VCC, OUTPUT);
+  pinMode(VCC_2, OUTPUT);
+  pinMode(VCC_3, OUTPUT);
   pinMode(GND, OUTPUT);
+  pinMode(Relay, OUTPUT);
   digitalWrite(VCC, HIGH);
+  digitalWrite(VCC_2, HIGH);
+  digitalWrite(VCC_3, HIGH);
   digitalWrite(GND, LOW);
+  digitalWrite(Relay, HIGH);
+  
   Serial.println("Initializing Ethernet Shield");
 
   if (Ethernet.begin(mac) == 0)
@@ -90,6 +100,15 @@ void loop()
       return;
     }
 
+    if ((hum >=55) || (hum2 >= 55) || (hum3 >= 55))
+    {
+      digitalWrite(Relay, LOW);
+    }
+    else
+    {
+      digitalWrite(Relay, HIGH);
+    }
+    
     Serial.print("Humidity  : ");
     Serial.print(hum);
     Serial.print(" %\t");
@@ -130,7 +149,7 @@ void loop()
     // This will send the request to the server
     client.print(String("GET ") + url + " HTTP/1.1\r\n" +
                  "Host: " + host + "\r\n" +
-                 "Connection: close\r\n\r\n");
+                 "Connection: cl1ose\r\n\r\n");
 
     client.stop();
   }
